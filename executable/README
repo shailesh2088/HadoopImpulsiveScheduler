@@ -1,0 +1,50 @@
+
+Copy the impulsiveschedular.jar file in $HADOOP_HOME/lib
+
+Configuring the Scheduler
+-------------------------
+
+In order to enable the scheduler, the classpath should be updated to
+point to the location of the scheduler (e.g. using conf/hadoop-env.sh),
+and the following properties should be present in the configuration file
+(conf/mapred-site.xml):
+
+ <property>
+   <name>mapred.jobtracker.taskScheduler</name>
+   <value>org.apache.hadoop.mapred.impulsiveScheduler</value>
+   <description>The class responsible for scheduling the tasks. Set to
+   org.apache.hadoop.mapred.impulsiveScheduler to enable the
+   resouce-aware impulsive Scheduler.</description>
+ </property>
+
+ <property>
+   <name>mapred.scheduler.impulsive.interval</name>
+   <value>10000</value>
+   <description>Time between two job matching computations, in
+   milliseconds.</description>
+ </property>
+
+ <property>
+   <name>mapred.scheduler.impulsive.utilization</name>
+   <value>100</value>
+   <description>Percentage of desired node utilization. Used for testing
+   purposes.</description>
+ </property>
+
+Additionally, the following properties are specific for each job, and
+are read when jobs are submitted:
+
+ <property>
+   <name>mapred.job.deadline</name>
+   <value>0</value>
+   <description>Set the job's desired deadline, in
+   seconds.</description>
+ </property>
+
+ <property>
+   <name>mapred.job.profile.{map,reduce}.{cpu,io}</name>
+   <value>100</value>
+   <description>Set the job profiling information for each phase and
+   resource (0-100).</description>
+ </property>
+
